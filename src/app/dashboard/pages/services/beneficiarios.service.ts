@@ -1,0 +1,57 @@
+// service/person.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { BeneficiarioDTO } from '../beneficiarios/beneficiariosDTO';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class BeneficiariosService {
+  private apiUrl = 'http://localhost:8080/api/persons';
+
+  constructor(private http: HttpClient) {}
+
+  //LISTADO DE TODOS LOS BENEFICIARIOS Y APADRINADOS ACTIVOS Y INACTIVOS
+  getPersonsByTypeKinshipAndState(typeKinship: string, state: string): Observable<BeneficiarioDTO[]> {
+    return this.http.get<BeneficiarioDTO[]>(`${this.apiUrl}/filter?typeKinship=${typeKinship}&state=${state}`);
+  }
+
+  //LISTADO DE SOLO LOS APRADRINADOS ACTIVOS Y INACTIVOS
+  getPersonsBySponsoredAndState(sponsored: string, state: string): Observable<BeneficiarioDTO[]> {
+    return this.http.get<BeneficiarioDTO[]>(`${this.apiUrl}/filter-sponsored?sponsored=${sponsored}&state=${state}`);
+  }
+
+  //LISTA TODOS LOS BENEFICIARIOS Y SUS DETALLES
+  getPersonByIdWithDetails(id: number): Observable<BeneficiarioDTO> {
+    return this.http.get<BeneficiarioDTO>(`${this.apiUrl}/${id}/details`);
+  }
+
+  //ELIMINADO LOGICO
+  deletePerson(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}/delete`);
+  }
+
+  //RESTAURADO LOGICO
+  restorePerson(id: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/restore`, {});
+  }
+
+  updatePerson(id: number, person: BeneficiarioDTO): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/update`, person);
+  }
+
+  //MODIFICACION DE DATOS PERSONALES
+  updatePersonData(id: number, person: BeneficiarioDTO): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/update-person`, person);
+  }
+
+  correctEducationAndHealth(id: number, person: BeneficiarioDTO): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/correct-education-health`, person);
+  }
+
+  registerPerson(person: BeneficiarioDTO): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/register`, person);
+  }
+}

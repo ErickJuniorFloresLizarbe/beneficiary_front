@@ -1,0 +1,312 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full h-full overflow-y-auto p-6">
+        <div class="flex justify-between items-center border-b pb-3">
+            <h2 class="text-2xl font-bold text-gray-900">Registro de Nueva Familia</h2>
+            <button (click)="closeForm()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                ✕
+            </button>
+        </div>
+
+        <form #familyForm="ngForm" (ngSubmit)="onSubmit(familyForm)">
+
+            <!-- Sección: Información Familiar -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Información Familiar</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="direction">Dirección</label>
+                            <input type="text" id="direction" class="form-control" required [(ngModel)]="family.direction" name="direction">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="reasibAdmission">Razón de Admisión</label>
+                            <input type="text" id="reasibAdmission" class="form-control" required [(ngModel)]="family.reasibAdmission" name="reasibAdmission">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Servicios Básicos -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Servicios Básicos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="waterService">Servicio de Agua</label>
+                            <input type="text" id="waterService" class="form-control" [(ngModel)]="family.basicService.waterService" name="waterService">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="servDrain">Servicio de Drenaje</label>
+                            <input type="text" id="servDrain" class="form-control" [(ngModel)]="family.basicService.servDrain" name="servDrain">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="servLight">Servicio de Luz</label>
+                            <input type="text" id="servLight" class="form-control" [(ngModel)]="family.basicService.servLight" name="servLight">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="servCable">Servicio de Cable</label>
+                            <input type="text" id="servCable" class="form-control" [(ngModel)]="family.basicService.servCable" name="servCable">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="servGas">Servicio de Gas</label>
+                            <input type="text" id="servGas" class="form-control" [(ngModel)]="family.basicService.servGas" name="servGas">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Entorno Comunitario -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Entorno Comunitario</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="area">Área</label>
+                            <input type="text" id="area" class="form-control" [(ngModel)]="family.communityEnvironment.area" name="area">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="referenceLocation">Ubicación de Referencia</label>
+                            <input type="text" id="referenceLocation" class="form-control" [(ngModel)]="family.communityEnvironment.referenceLocation" name="referenceLocation">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="residue">Residuo</label>
+                            <input type="text" id="residue" class="form-control" [(ngModel)]="family.communityEnvironment.residue" name="residue">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="publicLighting">Iluminación Pública</label>
+                            <input type="text" id="publicLighting" class="form-control" [(ngModel)]="family.communityEnvironment.publicLighting" name="publicLighting">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="security">Seguridad</label>
+                            <input type="text" id="security" class="form-control" [(ngModel)]="family.communityEnvironment.security" name="security">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Composición Familiar -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Composición Familiar</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="numberMembers">Número de Miembros</label>
+                            <input type="number" id="numberMembers" class="form-control" [(ngModel)]="family.familyComposition.numberMembers" name="numberMembers">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="numberChildren">Número de Niños</label>
+                            <input type="number" id="numberChildren" class="form-control" [(ngModel)]="family.familyComposition.numberChildren" name="numberChildren">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="familyType">Tipo de Familia</label>
+                            <input type="text" id="familyType" class="form-control" [(ngModel)]="family.familyComposition.familyType" name="familyType">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="socialProblems">Problemas Sociales</label>
+                            <input type="text" id="socialProblems" class="form-control" [(ngModel)]="family.familyComposition.socialProblems" name="socialProblems">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Alimentación Familiar -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Alimentación Familiar</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="frecuenciaSemanal">Frecuencia Semanal</label>
+                            <input type="text" id="frecuenciaSemanal" class="form-control" [(ngModel)]="family.familyFeeding.frecuenciaSemanal" name="frecuenciaSemanal">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="tipoAlimentacion">Tipo de Alimentación</label>
+                            <input type="text" id="tipoAlimentacion" class="form-control" [(ngModel)]="family.familyFeeding.tipoAlimentacion" name="tipoAlimentacion">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Salud Familiar -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Salud Familiar</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="safeType">Tipo de Seguro</label>
+                            <input type="text" id="safeType" class="form-control" [(ngModel)]="family.familyHealth.safeType" name="safeType">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="familyDisease">Enfermedades Familiares</label>
+                            <input type="text" id="familyDisease" class="form-control" [(ngModel)]="family.familyHealth.familyDisease" name="familyDisease">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="treatment">Tratamiento</label>
+                            <input type="text" id="treatment" class="form-control" [(ngModel)]="family.familyHealth.treatment" name="treatment">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="antecedentesEnfermedad">Antecedentes de Enfermedad</label>
+                            <input type="text" id="antecedentesEnfermedad" class="form-control" [(ngModel)]="family.familyHealth.antecedentesEnfermedad" name="antecedentesEnfermedad">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="examenMedico">Examen Médico</label>
+                            <input type="text" id="examenMedico" class="form-control" [(ngModel)]="family.familyHealth.examenMedico" name="examenMedico">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Distribución de la Vivienda -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Distribución de la Vivienda</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ambienteHogar">Ambiente del Hogar</label>
+                            <input type="number" id="ambienteHogar" class="form-control" [(ngModel)]="family.housingDistribution.ambienteHogar" name="ambienteHogar">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="numeroDormitorio">Número de Dormitorios</label>
+                            <input type="number" id="numeroDormitorio" class="form-control" [(ngModel)]="family.housingDistribution.numeroDormitorio" name="numeroDormitorio">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="habitabilidad">Habitabilidad</label>
+                            <input type="text" id="habitabilidad" class="form-control" [(ngModel)]="family.housingDistribution.habitabilidad" name="habitabilidad">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Entorno de la Vivienda -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Entorno de la Vivienda</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="tenure">Tenencia</label>
+                            <input type="text" id="tenure" class="form-control" [(ngModel)]="family.housingEnvironment.tenure" name="tenure">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="typeOfHousing">Tipo de Vivienda</label>
+                            <input type="text" id="typeOfHousing" class="form-control" [(ngModel)]="family.housingEnvironment.typeOfHousing" name="typeOfHousing">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="housingMaterial">Material de la Vivienda</label>
+                            <input type="text" id="housingMaterial" class="form-control" [(ngModel)]="family.housingEnvironment.housingMaterial" name="housingMaterial">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="housingSecurity">Seguridad de la Vivienda</label>
+                            <input type="text" id="housingSecurity" class="form-control" [(ngModel)]="family.housingEnvironment.housingSecurity" name="housingSecurity">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Autonomía Laboral -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Autonomía Laboral</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="numberRooms">Número de Habitaciones</label>
+                            <input type="number" id="numberRooms" class="form-control" [(ngModel)]="family.laborAutonomy.numberRooms" name="numberRooms">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="numberOfBedrooms">Número de Dormitorios</label>
+                            <input type="number" id="numberOfBedrooms" class="form-control" [(ngModel)]="family.laborAutonomy.numberOfBedrooms" name="numberOfBedrooms">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="habitabilityBuilding">Habitabilidad del Edificio</label>
+                            <input type="text" id="habitabilityBuilding" class="form-control" [(ngModel)]="family.laborAutonomy.habitabilityBuilding" name="habitabilityBuilding">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Vida Social -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Vida Social</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="material">Material</label>
+                            <input type="text" id="material" class="form-control" [(ngModel)]="family.socialLife.material" name="material">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="feeding">Alimentación</label>
+                            <input type="text" id="feeding" class="form-control" [(ngModel)]="family.socialLife.feeding" name="feeding">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="economic">Económico</label>
+                            <input type="text" id="economic" class="form-control" [(ngModel)]="family.socialLife.economic" name="economic">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="spiritual">Espiritual</label>
+                            <input type="text" id="spiritual" class="form-control" [(ngModel)]="family.socialLife.spiritual" name="spiritual">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="socialCompany">Compañía Social</label>
+                            <input type="text" id="socialCompany" class="form-control" [(ngModel)]="family.socialLife.socialCompany" name="socialCompany">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="guideTip">Guía de Consejos</label>
+                            <input type="text" id="guideTip" class="form-control" [(ngModel)]="family.socialLife.guideTip" name="guideTip">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between rounded-b-lg py-3 px-6">
+                <button class="btn btn-secondary" (click)="closeForm()">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

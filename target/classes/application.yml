@@ -1,0 +1,8 @@
+spring:
+  application:
+    name : database
+
+  r2dbc:
+    url: r2dbc:postgresql://ep-young-morning-a492t7vp.us-east-1.aws.neon.tech:5432/neondb?sslmode=require
+    username: neondb_owner
+    password: HPX6oUdLnR1G

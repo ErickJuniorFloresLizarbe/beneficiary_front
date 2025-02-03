@@ -1,0 +1,25 @@
+.modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.nav-link {
+    cursor: pointer;
+
+    &.active {
+        font-weight: bold;
+        color: #007bff;
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    margin-top: 1rem;
+}
+
+.btn-secondary {
+    margin-top: 1rem;
+}
