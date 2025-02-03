@@ -3,40 +3,54 @@
 <div class="container mx-auto p-4">
   <h2 class="text-xl font-bold mb-4">Lista de Beneficiarios</h2>
 
-  <div class="flex space-x-4  py-2">
-    <!-- Estado Activo/Inactivo -->
-    <div (click)="cambiarEstado()" class="flex items-center cursor-pointer">
-      <div class="w-10 h-6 bg-gray-400 rounded-full p-1 relative transition-all duration-300">
-        <div class="w-4 h-4 bg-white rounded-full absolute transition-all duration-300"
-             [ngClass]="estadoActual === 'I' ? 'translate-x-4 bg-blue-500' : 'translate-x-0 bg-gray-300'">
+
+  <div class="bg-white shadow-lg rounded-lg p-4">
+    <!-- Header con los switches de estado -->
+    <div class="flex justify-between items-center border-b pb-2 mb-4">
+      <h2 class="text-lg font-bold text-gray-700">Datos personales</h2>
+
+
+
+      <div class="flex space-x-4  py-2">
+        <!-- Estado Activo/Inactivo -->
+        <div (click)="cambiarEstado()" class="flex items-center cursor-pointer">
+          <div class="w-10 h-6 bg-gray-400 rounded-full p-1 relative transition-all duration-300">
+            <div class="w-4 h-4 bg-white rounded-full absolute transition-all duration-300"
+                [ngClass]="estadoActual === 'I' ? 'translate-x-4 bg-blue-500' : 'translate-x-0 bg-gray-300'">
+            </div>
+          </div>
+          <span class="ml-2 text-gray-700">{{ estadoActual === 'A' ? 'Activos' : 'Inactivos' }}</span>
+        </div>
+
+        <!-- Estado Apadrinamiento -->
+        <div (click)="cambiarApadrinamiento()" class="flex items-center cursor-pointer">
+          <div class="w-10 h-6 bg-gray-400 rounded-full p-1 relative transition-all duration-300">
+            <div class="w-4 h-4 bg-white rounded-full absolute transition-all duration-300"
+                [ngClass]="estadoApadrinamiento === 'SI' ? 'translate-x-4' : 'translate-x-0'">
+            </div>
+          </div>
+          <span class="ml-2 text-gray-700">{{ estadoApadrinamiento === 'NO' ? 'Beneficiarios' : 'Apadrinados' }}</span>
         </div>
       </div>
-      <span class="ml-2 text-gray-700">{{ estadoActual === 'A' ? 'Activos' : 'Inactivos' }}</span>
+
+
     </div>
 
-    <!-- Estado Apadrinamiento -->
-    <div (click)="cambiarApadrinamiento()" class="flex items-center cursor-pointer">
-      <div class="w-10 h-6 bg-gray-400 rounded-full p-1 relative transition-all duration-300">
-        <div class="w-4 h-4 bg-white rounded-full absolute transition-all duration-300"
-             [ngClass]="estadoApadrinamiento === 'SI' ? 'translate-x-4' : 'translate-x-0'">
-        </div>
-      </div>
-      <span class="ml-2 text-gray-700">{{ estadoApadrinamiento === 'NO' ? 'Beneficiarios' : 'Apadrinados' }}</span>
-    </div>
+
+<div class="overflow-x-auto">
   </div>
-
-
   <!-- LISTA LA TABLA DE BENEFICIARIOS Y APADRINADOS ( A - I) -->
+
   <table class="table-auto w-full border-collapse border border-gray-300">
     <thead>
       <tr class="bg-gray-200">
         <th class="border border-gray-300 px-2 py-1">Nombres</th>
         <th class="border border-gray-300 px-2 py-1">Apellidos</th>
         <th class="border border-gray-300 px-2 py-1">Edad</th>
-        <th class="border border-gray-300 px-2 py-1">Fech Nacimiento</th>
-        <th class="border border-gray-300 px-2 py-1">Tipo Doc</th>
+        <th class="border border-gray-300 px-2 py-1">Nacimiento</th>
+        <th class="border border-gray-300 px-2 py-1 w-[90px]">Tipo Doc</th>
         <th class="border border-gray-300 px-2 py-1">Número Doc</th>
-        <th class="border border-gray-300 px-2 py-1">Patrocinado</th>
+        <th class="border border-gray-300 px-2 py-1 w-[80px]">Patrocinado</th>
         <th class="border border-gray-300 px-2 py-1">Acciones</th>
       </tr>
     </thead>
@@ -46,9 +60,9 @@
         <td class="border border-gray-300 px-2 py-1">{{ beneficiario.surname }}</td>
         <td class="border border-gray-300 px-2 py-1">{{ beneficiario.age }}</td>
         <td class="border border-gray-300 px-2 py-1">{{ beneficiario.birthdate }}</td>
-        <td class="border border-gray-300 px-2 py-1">{{ beneficiario.typeDocument }}</td>
+        <td class="border border-gray-300 px-2 py-1 w-[90px]">{{ beneficiario.typeDocument }}</td>
         <td class="border border-gray-300 px-2 py-1">{{ beneficiario.documentNumber }}</td>
-        <td class="border border-gray-300 px-2 py-1">{{ beneficiario.sponsored }}</td>
+        <td class="border border-gray-300 px-2 py-1 w-[80px]">{{ beneficiario.sponsored }}</td>
         <td class="border border-gray-300 px-2 py-1 text-center">
 
           <!-- Botón de eliminar y restaurar -->
@@ -73,8 +87,9 @@
       </tr>
     </tbody>
   </table>
-</div>
 
+</div>
+</div>
 
 <!-- MODAL DE VISTA PREVIA -- MUESTRA DATOS PERSON, EDUCATION Y HEALTH -->
 <div *ngIf="selectedBeneficiario && !isEditing" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
