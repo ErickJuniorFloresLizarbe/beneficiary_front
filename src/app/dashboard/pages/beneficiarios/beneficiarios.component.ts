@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { BeneficiariosService } from '../services/beneficiarios.service';
 import { BeneficiarioDTO } from '../beneficiarios/beneficiariosDTO';
 import { CommonModule } from '@angular/common';
@@ -8,13 +8,14 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   selector: 'app-beneficiarios',
   templateUrl: './beneficiarios.component.html',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ],
 })
 export class BeneficiariosComponent implements OnInit {
+
   beneficiarios: BeneficiarioDTO[] = [];
   selectedBeneficiario: BeneficiarioDTO | null = null;
-  selectedEducation: any = null;
   isEditing: boolean = false;
+  selectedEducation: any = null;
   isEditingEducation: boolean = false;
   selectedHealth: any = null;
   isEditingHealth: boolean = false;
@@ -184,4 +185,5 @@ export class BeneficiariosComponent implements OnInit {
     this.selectedHealth = null;
     this.isEditingHealth = false;
   }
+
 }

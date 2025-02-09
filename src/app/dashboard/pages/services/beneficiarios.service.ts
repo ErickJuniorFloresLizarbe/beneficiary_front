@@ -38,10 +38,6 @@ export class BeneficiariosService {
     return this.http.put<void>(`${this.apiUrl}/${id}/restore`, {});
   }
 
-  updatePerson(id: number, person: BeneficiarioDTO): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}/update`, person);
-  }
-
   //MODIFICACION DE DATOS DE BENEFICIARIOS Y APADRINADOS SIN GENERAR UN NUEVO ID
   updatePersonData(id: number, person: BeneficiarioDTO): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/update-person`, person);
@@ -52,6 +48,9 @@ export class BeneficiariosService {
     return this.http.put<void>(`${this.apiUrl}/${id}/correct-education-health`, educationData);
   }
 
+  updatePerson(id: number, person: BeneficiarioDTO): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/update`, person);
+  }
 
   registerPerson(person: BeneficiarioDTO): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/register`, person);
