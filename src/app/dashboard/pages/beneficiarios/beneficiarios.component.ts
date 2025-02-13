@@ -3,12 +3,13 @@ import { BeneficiariosService } from '../services/beneficiarios.service';
 import { BeneficiarioDTO } from '../beneficiarios/beneficiariosDTO';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormEditComponent } from '../beneficiarios/form-edit/form-edit.component';
 
 @Component({
   standalone: true,
   selector: 'app-beneficiarios',
   templateUrl: './beneficiarios.component.html',
-  imports: [CommonModule, FormsModule, ],
+  imports: [CommonModule, FormsModule, FormEditComponent],
 })
 export class BeneficiariosComponent implements OnInit {
 
@@ -22,6 +23,9 @@ export class BeneficiariosComponent implements OnInit {
   estadoActual: string = 'A';
   estadoApadrinamiento: string = 'NO';
   tipoParentesco: string = 'Hijo';
+  isModalVisible: boolean = false;
+  isHealthModalVisible: boolean = false;
+
 
 
   constructor(private beneficiariosService: BeneficiariosService) {}
@@ -29,6 +33,7 @@ export class BeneficiariosComponent implements OnInit {
   ngOnInit(): void {
     this.cargarBeneficiarios();
   }
+
 
   //LISTADO DE BENEFICIARIOS Y APADRINADOS
   cargarBeneficiarios(): void {
@@ -148,6 +153,7 @@ export class BeneficiariosComponent implements OnInit {
   }
 
 
+
   // ABRE EL MODAL PARA HACER LA EDICIÓN DE SALUD
   editarSalud(health: any): void {
     this.selectedHealth = { ...health };
@@ -186,4 +192,67 @@ export class BeneficiariosComponent implements OnInit {
     this.isEditingHealth = false;
   }
 
+
+
+
+   // Abre el modal con la educación del beneficiario seleccionado
+   openModal(beneficiario: BeneficiarioDTO): void {
+    this.selectedBeneficiario = beneficiario;
+
+    // Cargar información de educación de la persona
+    this.beneficiariosService.getPersonByIdWithDetails(beneficiario.idPerson).subscribe(data => {
+      this.selectedEducation = data.education[0] || {};; // Suponiendo que solo hay un objeto de educación
+      this.isModalVisible = true;
+    });
+  }
+
+  // Cierra el modal
+  closeModal(): void {
+    this.isModalVisible = false;
+  }
+
+  // Guarda la educación y cierra el modal
+  saveEducation(updatedEducation: any): void {
+    if (!this.selectedBeneficiario) return;
+
+    const updatedData = {
+      ...this.selectedBeneficiario,
+      education: [updatedEducation]
+    };
+
+    this.beneficiariosService.updatePerson(this.selectedBeneficiario.idPerson, updatedData).subscribe(() => {
+      this.closeModal();
+      this.cargarBeneficiarios();
+    });
+  }
+
+
+
+  openHealthModal(beneficiario: BeneficiarioDTO): void {
+    this.selectedBeneficiario = beneficiario;
+
+    // Cargar información de salud de la persona
+    this.beneficiariosService.getPersonByIdWithDetails(beneficiario.idPerson).subscribe(data => {
+      this.selectedHealth = data.health[0] || {}; // CORREGIDO
+      this.isHealthModalVisible = true;
+    });
+  }
+
+  closeHealthModal(): void {
+    this.isHealthModalVisible = false;
+  }
+
+  saveHealthChanges(updatedHealth: any): void {
+    if (!this.selectedBeneficiario) return;
+
+    const updatedData = {
+      ...this.selectedBeneficiario,
+      health: [updatedHealth] // CORREGIDO
+    };
+
+    this.beneficiariosService.updatePerson(this.selectedBeneficiario.idPerson, updatedData).subscribe(() => {
+      this.closeHealthModal();
+      this.cargarBeneficiarios();
+    });
+  }
 }
