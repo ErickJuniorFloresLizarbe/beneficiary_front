@@ -22,16 +22,26 @@
       </div>
       <div>
         <label for="fullNotebook" class="block font-medium text-gray-700">Cuaderno Completo:</label>
-        <input id="fullNotebook" type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedEducation.fullNotebook">
-      </div>
-      <div>
+        <select id="fullNotebook" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedEducation.fullNotebook">
+            <option value="Completo">Completo</option>
+            <option value="Incompleto">Incompleto</option>
+        </select>
+    </div>
+    <div>
         <label for="assistance" class="block font-medium text-gray-700">Asistencia:</label>
-        <input id="assistance" type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedEducation.assistance">
-      </div>
-      <div>
+        <select id="assistance" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedEducation.assistance">
+            <option value="Regular">Regular</option>
+            <option value="Buena">Buena</option>
+            <option value="Mala">Mala</option>
+        </select>
+    </div>
+    <div>
         <label for="tutorials" class="block font-medium text-gray-700">Tutoriales:</label>
-        <input id="tutorials" type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedEducation.tutorials">
-      </div>
+        <select id="tutorials" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedEducation.tutorials">
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+        </select>
+    </div>
     </div>
     <div class="mt-6 text-right">
       <button (click)="saveChanges()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
@@ -55,24 +65,46 @@
     <div class="grid grid-cols-2 gap-4">
       <div>
         <label class="block font-medium text-gray-700">Vacuna:</label>
-        <input type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.vaccine">
-      </div>
-      <div>
+        <select class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.vaccine">
+          <option value="Esquema Completo">Esquema Completo</option>
+          <option value="Incompleto">Incompleto</option>
+          <option value="Sin información">Sin información</option>
+        </select>
+    </div>
+    <div>
         <label class="block font-medium text-gray-700">VPH:</label>
-        <input type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.vph">
-      </div>
-      <div>
+        <select class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.vph">
+          <option value="Aplicada">Aplicada</option>
+          <option value="No aplicada">No aplicada</option>
+          <option value="Sin información">Sin información</option>
+        </select>
+    </div>
+    <div>
         <label class="block font-medium text-gray-700">Influenza:</label>
-        <input type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.influenza">
-      </div>
-      <div>
+        <select class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.influenza">
+          <option value="Aplicada">Aplicada</option>
+          <option value="No aplicada">No aplicada</option>
+          <option value="Sin información">Sin información</option>
+        </select>
+    </div>
+    <div>
         <label class="block font-medium text-gray-700">Desparasitación:</label>
-        <input type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.deworming">
-      </div>
-      <div>
+        <select class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.deworming">
+          <option value="Aplicada">Aplicada</option>
+          <option value="No aplicada">No aplicada</option>
+          <option value="Sin información">Sin información</option>
+        </select>
+    </div>
+    <div>
         <label class="block font-medium text-gray-700">Hemoglobina:</label>
-        <input type="text" class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.hemoglobin">
-      </div>
+        <select class="w-full p-2 border border-gray-300 rounded-md" [(ngModel)]="selectedHealth.hemoglobin">
+          <option value="Normal">Normal</option>
+          <option value="Baja">Baja</option>
+          <option  value="Alta">Alta</option>
+          <option value="Sin información">Sin información</option>
+        </select>
+    </div>
+
     </div>
     <div class="mt-6 text-right">
       <button (click)="saveHealthChanges()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">

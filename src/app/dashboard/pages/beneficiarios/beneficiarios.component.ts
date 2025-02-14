@@ -25,8 +25,8 @@ export class BeneficiariosComponent implements OnInit {
   tipoParentesco: string = 'Hijo';
   isModalVisible: boolean = false;
   isHealthModalVisible: boolean = false;
-
-
+  beneficiariosFiltrados: BeneficiarioDTO[] = []; // Nueva lista para mostrar los resultados filtrados
+  searchTerm: string = '';
 
   constructor(private beneficiariosService: BeneficiariosService) {}
 
@@ -41,12 +41,27 @@ export class BeneficiariosComponent implements OnInit {
       this.beneficiariosService.getPersonsBySponsoredAndState(this.estadoApadrinamiento, this.estadoActual)
         .subscribe(data => {
           this.beneficiarios = data;
+          this.filtrarBeneficiarios();
         });
     } else if (this.estadoApadrinamiento === 'NO') {
       this.beneficiariosService.getPersonsByTypeKinshipAndState(this.tipoParentesco, this.estadoActual)
         .subscribe(data => {
           this.beneficiarios = data;
+          this.filtrarBeneficiarios();
         });
+    }
+  }
+
+  filtrarBeneficiarios(): void {
+    if (!this.searchTerm) {
+      this.beneficiariosFiltrados = this.beneficiarios;
+    } else {
+      const lowerCaseSearch = this.searchTerm.toLowerCase();
+      this.beneficiariosFiltrados = this.beneficiarios.filter(b =>
+        b.name.toLowerCase().includes(lowerCaseSearch) ||
+        b.surname.toLowerCase().includes(lowerCaseSearch)||
+        b.documentNumber.toLowerCase().includes(lowerCaseSearch)
+      );
     }
   }
 
