@@ -6,6 +6,20 @@ export const routes: Routes = [
     loadComponent: () => import('./dashboard/dashboard.component'),
     children: [
       {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+      },
+      // Ruta de login
+      {
+        path: 'login',
+        title: 'Inicio de Sesión',
+        loadComponent: () =>
+          import('./components/login/login.component').then(
+            (m) => m.LogicComponent
+          )
+      },
+      {
         path: 'dashboard-nph',
         title: 'Dashboard',
         loadComponent: () => import('./dashboard/pages/dashboard/dashboard.component'),
