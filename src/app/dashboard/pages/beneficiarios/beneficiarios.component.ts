@@ -27,6 +27,8 @@ export class BeneficiariosComponent implements OnInit {
   isHealthModalVisible: boolean = false;
   beneficiariosFiltrados: BeneficiarioDTO[] = []; // Nueva lista para mostrar los resultados filtrados
   searchTerm: string = '';
+  showBeneficiarioDetails: boolean = true;
+
 
   constructor(private beneficiariosService: BeneficiariosService) {}
 
@@ -34,24 +36,14 @@ export class BeneficiariosComponent implements OnInit {
     this.cargarBeneficiarios();
   }
 
-
-  //LISTADO DE BENEFICIARIOS Y APADRINADOS
-  cargarBeneficiarios(): void {
-    if (this.estadoApadrinamiento === 'SI') {
-      this.beneficiariosService.getPersonsBySponsoredAndState(this.estadoApadrinamiento, this.estadoActual)
-        .subscribe(data => {
-          this.beneficiarios = data;
-          this.filtrarBeneficiarios();
-        });
-    } else if (this.estadoApadrinamiento === 'NO') {
-      this.beneficiariosService.getPersonsByTypeKinshipAndState(this.tipoParentesco, this.estadoActual)
-        .subscribe(data => {
-          this.beneficiarios = data;
-          this.filtrarBeneficiarios();
-        });
-    }
+   // Método para formatear la fecha
+   formatBirthdate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('es-ES', options).replace(/\s/g, '-');
   }
 
+  //FILTRO DE BUSQUEDA
   filtrarBeneficiarios(): void {
     if (!this.searchTerm) {
       this.beneficiariosFiltrados = this.beneficiarios;
@@ -77,6 +69,23 @@ export class BeneficiariosComponent implements OnInit {
     this.cargarBeneficiarios();
   }
 
+  //LISTADO DE BENEFICIARIOS Y APADRINADOS
+  cargarBeneficiarios(): void {
+    if (this.estadoApadrinamiento === 'SI') {
+      this.beneficiariosService.getPersonsBySponsoredAndState(this.estadoApadrinamiento, this.estadoActual)
+        .subscribe(data => {
+          this.beneficiarios = data;
+          this.filtrarBeneficiarios();
+        });
+    } else if (this.estadoApadrinamiento === 'NO') {
+      this.beneficiariosService.getPersonsByTypeKinshipAndState(this.tipoParentesco, this.estadoActual)
+        .subscribe(data => {
+          this.beneficiarios = data;
+          this.filtrarBeneficiarios();
+        });
+    }
+  }
+  
   //BOTON DE ELIMINAR Y RESTAURAR
   toggleEstado(beneficiario: BeneficiarioDTO): void {
     if (beneficiario.state === 'A') {
@@ -94,9 +103,11 @@ export class BeneficiariosComponent implements OnInit {
   verDetalles(id: number): void {
     this.beneficiariosService.getPersonByIdWithDetails(id).subscribe(data => {
       this.selectedBeneficiario = data;
-      this.isEditing = false;
+      this.isEditing = false; 
     });
   }
+
+  //viewdetail
 
   //ABRE EL MODAL PARA HACER LA EDICION DE BENEFICIARIO Y APADRINADO
   editarBeneficiario(beneficiario: BeneficiarioDTO): void {
@@ -213,18 +224,30 @@ export class BeneficiariosComponent implements OnInit {
    // Abre el modal con la educación del beneficiario seleccionado
    openModal(beneficiario: BeneficiarioDTO): void {
     this.selectedBeneficiario = beneficiario;
-
+    this.isModalVisible = true;
+    this.showBeneficiarioDetails = false; // Ocultar detalles del beneficiario
+    
     // Cargar información de educación de la persona
     this.beneficiariosService.getPersonByIdWithDetails(beneficiario.idPerson).subscribe(data => {
-      this.selectedEducation = data.education[0] || {};; // Suponiendo que solo hay un objeto de educación
-      this.isModalVisible = true;
+      this.selectedEducation = data.education[0] || {}; 
     });
   }
-
-  // Cierra el modal
+  
   closeModal(): void {
     this.isModalVisible = false;
+    this.showBeneficiarioDetails = true; // Mostrar detalles del beneficiario
+  
+    // Actualizar los datos del beneficiario seleccionado
+    if (this.selectedBeneficiario) {
+      this.beneficiariosService.getPersonByIdWithDetails(this.selectedBeneficiario.idPerson).subscribe(updatedBeneficiario => {
+        this.selectedBeneficiario = updatedBeneficiario;
+        this.selectedEducation = updatedBeneficiario.education[0] || {}; // Actualizar datos de educación
+        this.selectedHealth = updatedBeneficiario.health[0] || {}; // Actualizar datos de salud
+        this.isEditing = false;
+      });
+    }
   }
+  
 
   // Guarda la educación y cierra el modal
   saveEducation(updatedEducation: any): void {
@@ -245,16 +268,28 @@ export class BeneficiariosComponent implements OnInit {
 
   openHealthModal(beneficiario: BeneficiarioDTO): void {
     this.selectedBeneficiario = beneficiario;
+    this.isHealthModalVisible = true;
+    this.showBeneficiarioDetails = false;
 
     // Cargar información de salud de la persona
     this.beneficiariosService.getPersonByIdWithDetails(beneficiario.idPerson).subscribe(data => {
       this.selectedHealth = data.health[0] || {}; // CORREGIDO
-      this.isHealthModalVisible = true;
     });
   }
 
   closeHealthModal(): void {
     this.isHealthModalVisible = false;
+    this.showBeneficiarioDetails = true; // Mostrar detalles del beneficiario
+  
+    // Actualizar los datos del beneficiario seleccionado
+    if (this.selectedBeneficiario) {
+      this.beneficiariosService.getPersonByIdWithDetails(this.selectedBeneficiario.idPerson).subscribe(updatedBeneficiario => {
+        this.selectedBeneficiario = updatedBeneficiario;
+        this.selectedEducation = updatedBeneficiario.education[0] || {}; // Actualizar datos de educación
+        this.selectedHealth = updatedBeneficiario.health[0] || {}; // Actualizar datos de salud
+        this.isEditing = false;
+      });
+    }
   }
 
   saveHealthChanges(updatedHealth: any): void {

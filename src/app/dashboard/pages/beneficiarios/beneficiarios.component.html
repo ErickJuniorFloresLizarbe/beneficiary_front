@@ -93,7 +93,7 @@
               <td class="border border-gray-300 px-2 py-1  truncate-text">{{ beneficiario.name }}</td>
               <td class="border border-gray-300 px-2 py-1  truncate-text">{{ beneficiario.surname }}</td>
               <td class="border border-gray-300 px-2 py-1">{{ beneficiario.age }}</td>
-              <td class="border border-gray-300 px-2 py-1">{{ beneficiario.birthdate }}</td>
+              <td class="border border-gray-300 px-2 py-1">{{ formatBirthdate(beneficiario.birthdate) }}</td>
               <td class="border border-gray-300 px-2 py-1 w-[90px]">{{ beneficiario.typeDocument }}</td>
               <td class="border border-gray-300 px-2 py-1 w-[130px]">{{ beneficiario.documentNumber }}</td>
               <td class="border border-gray-300 px-2 py-1 w-[80px]">{{ beneficiario.sponsored }}</td>
@@ -145,7 +145,7 @@
   </div>
 
   <!-- MODAL DE VISTA PREVIA -- MUESTRA DATOS PERSON, EDUCATION Y HEALTH -->
-  <div *ngIf="selectedBeneficiario && !isEditing"
+  <div *ngIf="showBeneficiarioDetails && selectedBeneficiario && !isEditing"
     class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-4xl h-5/6 overflow-hidden flex flex-col">
       <h2 class="text-lg font-semibold mb-4">Detalles del Beneficiario</h2>
@@ -167,7 +167,7 @@
             <td class="border px-1 py-1">{{ selectedBeneficiario.name }}</td>
             <td class="border px-1 py-1">{{ selectedBeneficiario.surname }}</td>
             <td class="border px-1 py-1">{{ selectedBeneficiario.age }}</td>
-            <td class="border px-1 py-1">{{ selectedBeneficiario.birthdate }}</td>
+            <td class="border px-1 py-1">{{ formatBirthdate(selectedBeneficiario.birthdate) }}</td>
             <td class="border px-1 py-1">{{ selectedBeneficiario.documentNumber }}</td>
             <td class="border px-1 py-1">{{ selectedBeneficiario.sponsored }}</td>
             <td class="border px-1 py-1 text-center  w-[80px]">

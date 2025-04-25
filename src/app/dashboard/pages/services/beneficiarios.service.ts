@@ -11,6 +11,8 @@ import { BeneficiarioDTO } from '../beneficiarios/beneficiariosDTO';
 export class BeneficiariosService {
   private apiUrl = 'http://localhost:8080/api/persons';
 
+  private apiUrlmetodo = 'http://localhost:8085/api/persons';
+
   constructor(private http: HttpClient) {}
 
   //LISTADO DE TODOS LOS BENEFICIARIOS Y APADRINADOS ACTIVOS Y INACTIVOS
@@ -40,19 +42,19 @@ export class BeneficiariosService {
 
   //MODIFICACION DE DATOS DE BENEFICIARIOS Y APADRINADOS SIN GENERAR UN NUEVO ID
   updatePersonData(id: number, person: BeneficiarioDTO): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}/update-person`, person);
+    return this.http.put<void>(`${this.apiUrlmetodo}/${id}/update-person`, person);
   }
 
   //MODIFICACION DE DATOS DE EDUCATION Y HEALTH SIN GENERAR UN NUEVO ID
   correctEducationAndHealth(id: number, educationData: any): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}/correct-education-health`, educationData);
+    return this.http.put<void>(`${this.apiUrlmetodo}/${id}/correct-education-health`, educationData);
   }
 
   updatePerson(id: number, person: BeneficiarioDTO): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}/update`, person);
+    return this.http.put<void>(`${this.apiUrlmetodo}/${id}/update`, person);
   }
 
   registerPerson(person: BeneficiarioDTO): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/register`, person);
+    return this.http.post<void>(`${this.apiUrlmetodo}/register`, person);
   }
 }
