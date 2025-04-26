@@ -13,6 +13,7 @@ import { FormEditComponent } from '../beneficiarios/form-edit/form-edit.componen
 })
 export class BeneficiariosComponent implements OnInit {
 
+  //ATRIBUTOS USADOS PARA LAS FUNCIONES 
   beneficiarios: BeneficiarioDTO[] = [];
   selectedBeneficiario: BeneficiarioDTO | null = null;
   isEditing: boolean = false;
@@ -22,25 +23,17 @@ export class BeneficiariosComponent implements OnInit {
   isEditingHealth: boolean = false;
   estadoActual: string = 'A';
   estadoApadrinamiento: string = 'NO';
-  tipoParentesco: string = 'Hijo';
+  tipoParentesco: string = 'HIJO';
   isModalVisible: boolean = false;
   isHealthModalVisible: boolean = false;
-  beneficiariosFiltrados: BeneficiarioDTO[] = []; // Nueva lista para mostrar los resultados filtrados
+  beneficiariosFiltrados: BeneficiarioDTO[] = [];
   searchTerm: string = '';
   showBeneficiarioDetails: boolean = true;
-
 
   constructor(private beneficiariosService: BeneficiariosService) {}
 
   ngOnInit(): void {
     this.cargarBeneficiarios();
-  }
-
-   // Método para formatear la fecha
-   formatBirthdate(dateString: string): string {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString('es-ES', options).replace(/\s/g, '-');
   }
 
   //FILTRO DE BUSQUEDA
@@ -57,15 +50,22 @@ export class BeneficiariosComponent implements OnInit {
     }
   }
 
-  //LISTA DE ESTADO ACTIVO Y INACTIVO
-  cambiarEstado(): void {
-    this.estadoActual = this.estadoActual === 'A' ? 'I' : 'A';
+  //BOTON DE FILTRO APADRINADO O BENEFICIARIO
+  cambiarApadrinamiento(): void {
+    this.estadoApadrinamiento = this.estadoApadrinamiento === 'NO' ? 'SI' : 'NO';
     this.cargarBeneficiarios();
   }
 
-  //BOTON DE FILTRO APADRINADO
-  cambiarApadrinamiento(): void {
-    this.estadoApadrinamiento = this.estadoApadrinamiento === 'NO' ? 'SI' : 'NO';
+  //METODO PARA FORMATEAR FECHA
+   formatBirthdate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('es-ES', options).replace(/\s/g, '-');
+  }
+
+  //LISTA DE ESTADO ACTIVO Y INACTIVO
+  cambiarEstado(): void {
+    this.estadoActual = this.estadoActual === 'A' ? 'I' : 'A';
     this.cargarBeneficiarios();
   }
 
@@ -86,7 +86,7 @@ export class BeneficiariosComponent implements OnInit {
     }
   }
   
-  //BOTON DE ELIMINAR Y RESTAURAR
+  //BOTON DE ELIMINAR Y RESTAURAR BENEFICIARIO Y APADRINADO
   toggleEstado(beneficiario: BeneficiarioDTO): void {
     if (beneficiario.state === 'A') {
       this.beneficiariosService.deletePerson(beneficiario.idPerson).subscribe(() => {
@@ -99,7 +99,7 @@ export class BeneficiariosComponent implements OnInit {
     }
   }
 
-  //FUNCIÓN PARA ABRIR EL MODAL Y CARGAR DETALLES
+  //FUNCIÓN DE VISTA DE DETALLES DE BENEFICIARIO POR ID  
   verDetalles(id: number): void {
     this.beneficiariosService.getPersonByIdWithDetails(id).subscribe(data => {
       this.selectedBeneficiario = data;
@@ -107,15 +107,13 @@ export class BeneficiariosComponent implements OnInit {
     });
   }
 
-  //viewdetail
-
-  //ABRE EL MODAL PARA HACER LA EDICION DE BENEFICIARIO Y APADRINADO
+  //ABRE EL MODAL PARA HACER LA ACTUALIZACION DE BENEFICIARIO Y APADRINADO
   editarBeneficiario(beneficiario: BeneficiarioDTO): void {
     this.selectedBeneficiario = { ...beneficiario };
     this.isEditing = true;
   }
 
-  //GUARDAMOS LOS CAMBIOS DE BENEFICIARIO Y APADRINADO
+  //GUARDAMOS LOS CAMBIOS DE LA ACTUALIZACION DE LOS BENEFICIARIO Y APADRINADO
   guardarCambios(): void {
     if (this.selectedBeneficiario) {
       const id = this.selectedBeneficiario.idPerson;
@@ -133,20 +131,19 @@ export class BeneficiariosComponent implements OnInit {
     }
   }
 
-  //CIERRA EL MODAL DE LA EDICION DE BENEFICIARIO Y APADRINADO
+  //CIERRA EL MODAL DE LA ACTUALIZACION DE BENEFICIARIO Y APADRINADO
   cerrarModal(): void {
     this.selectedBeneficiario = null;
     this.isEditing = false;
   }
 
-
-  //ABRE EL MODAL PARA HACER LA EDICION DE EDUCATION
+  //ABRE EL MODAL PARA HACER LA CORRECION DE EDUCATION
   editarEducacion(edu: any): void {
     this.selectedEducation = { ...edu };
     this.isEditingEducation = true;
   }
 
-  //GUARDAMOS LOS CAMBIOS DE LA EDICION DE EDUCATION
+  //GUARDAMOS LOS CAMBIOS DE LA CORRECION DE EDUCATION
   guardarEducacion(): void {
     if (this.selectedBeneficiario && this.selectedEducation) {
       const id = this.selectedBeneficiario.idPerson;
@@ -172,21 +169,19 @@ export class BeneficiariosComponent implements OnInit {
     }
   }
 
-  //CIERRA EL MODAL DE LA EDICION DE EDUCATION
+  //CIERRA EL MODAL DE LA CORRECION DE EDUCATION
   cerrarModalEducacion(): void {
     this.selectedEducation = null;
     this.isEditingEducation = false;
   }
 
-
-
-  // ABRE EL MODAL PARA HACER LA EDICIÓN DE SALUD
+  //ABRE EL MODAL PARA HACER CORRECION DE SALUD
   editarSalud(health: any): void {
     this.selectedHealth = { ...health };
     this.isEditingHealth = true;
   }
 
-  // GUARDAMOS LOS CAMBIOS DE LA EDICIÓN DE SALUD
+  //GUARDAMOS LOS CAMBIOS DE LA CORRECION DE SALUD
   guardarSalud(): void {
     if (this.selectedBeneficiario && this.selectedHealth) {
       const id = this.selectedBeneficiario.idPerson;
@@ -212,44 +207,40 @@ export class BeneficiariosComponent implements OnInit {
     }
   }
 
-  // CIERRA EL MODAL DE LA EDICIÓN DE SALUD
+  //CIERRA EL MODAL DE LA CORRECION DE SALUD
   cerrarModalSalud(): void {
     this.selectedHealth = null;
     this.isEditingHealth = false;
   }
 
-
-
-
-   // Abre el modal con la educación del beneficiario seleccionado
+  //ABRE MODAL PARA ACTUALIZA LA EDUCATION Y GENERA NUEVO ID
    openModal(beneficiario: BeneficiarioDTO): void {
     this.selectedBeneficiario = beneficiario;
     this.isModalVisible = true;
-    this.showBeneficiarioDetails = false; // Ocultar detalles del beneficiario
+    this.showBeneficiarioDetails = false;
     
-    // Cargar información de educación de la persona
+    //CARGA EL ULTIMO ID DE EDUCATION
     this.beneficiariosService.getPersonByIdWithDetails(beneficiario.idPerson).subscribe(data => {
       this.selectedEducation = data.education[0] || {}; 
     });
   }
   
+  //CIERRA, REFRESCA Y MUESTRA EL MODAL DEL BENFICIARIO ACTUALIZADO EN EDUCATION
   closeModal(): void {
     this.isModalVisible = false;
-    this.showBeneficiarioDetails = true; // Mostrar detalles del beneficiario
+    this.showBeneficiarioDetails = true;
   
-    // Actualizar los datos del beneficiario seleccionado
     if (this.selectedBeneficiario) {
       this.beneficiariosService.getPersonByIdWithDetails(this.selectedBeneficiario.idPerson).subscribe(updatedBeneficiario => {
         this.selectedBeneficiario = updatedBeneficiario;
-        this.selectedEducation = updatedBeneficiario.education[0] || {}; // Actualizar datos de educación
-        this.selectedHealth = updatedBeneficiario.health[0] || {}; // Actualizar datos de salud
+        this.selectedEducation = updatedBeneficiario.education[0] || {};
+        this.selectedHealth = updatedBeneficiario.health[0] || {};
         this.isEditing = false;
       });
     }
   }
   
-
-  // Guarda la educación y cierra el modal
+  //GUARDA Y CIERRA EL BENEFICIARIO ACTULIZADO EN EDUCATION
   saveEducation(updatedEducation: any): void {
     if (!this.selectedBeneficiario) return;
 
@@ -264,40 +255,40 @@ export class BeneficiariosComponent implements OnInit {
     });
   }
 
-
-
+  //ABRE MODAL PARA EDITAR SALUD Y GENERA NUEVO ID
   openHealthModal(beneficiario: BeneficiarioDTO): void {
     this.selectedBeneficiario = beneficiario;
     this.isHealthModalVisible = true;
     this.showBeneficiarioDetails = false;
 
-    // Cargar información de salud de la persona
+    //CARGA EL ULTIMO ID DE SALUD
     this.beneficiariosService.getPersonByIdWithDetails(beneficiario.idPerson).subscribe(data => {
-      this.selectedHealth = data.health[0] || {}; // CORREGIDO
+      this.selectedHealth = data.health[0] || {};
     });
   }
 
+  //CIERRA, REFRESCA Y MUESTRA EL MODAL DEL BENFICIARIO ACTUALIZADO EN EDUCATION
   closeHealthModal(): void {
     this.isHealthModalVisible = false;
-    this.showBeneficiarioDetails = true; // Mostrar detalles del beneficiario
+    this.showBeneficiarioDetails = true;
   
-    // Actualizar los datos del beneficiario seleccionado
     if (this.selectedBeneficiario) {
       this.beneficiariosService.getPersonByIdWithDetails(this.selectedBeneficiario.idPerson).subscribe(updatedBeneficiario => {
         this.selectedBeneficiario = updatedBeneficiario;
-        this.selectedEducation = updatedBeneficiario.education[0] || {}; // Actualizar datos de educación
-        this.selectedHealth = updatedBeneficiario.health[0] || {}; // Actualizar datos de salud
+        this.selectedEducation = updatedBeneficiario.education[0] || {};
+        this.selectedHealth = updatedBeneficiario.health[0] || {};
         this.isEditing = false;
       });
     }
   }
 
+  //GUARDA Y CIERRA EL BENEFICIARIO ACTULIZADO EN SALUD
   saveHealthChanges(updatedHealth: any): void {
     if (!this.selectedBeneficiario) return;
 
     const updatedData = {
       ...this.selectedBeneficiario,
-      health: [updatedHealth] // CORREGIDO
+      health: [updatedHealth]
     };
 
     this.beneficiariosService.updatePerson(this.selectedBeneficiario.idPerson, updatedData).subscribe(() => {
