@@ -7,18 +7,10 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'login',
+        redirectTo: 'dashboard-nph',
         pathMatch: 'full'
       },
-      // Ruta de login
-      {
-        path: 'login',
-        title: 'Inicio de Sesión',
-        loadComponent: () =>
-          import('./components/login/login.component').then(
-            (m) => m.LogicComponent
-          )
-      },
+      
       {
         path: 'dashboard-nph',
         title: 'Dashboard',

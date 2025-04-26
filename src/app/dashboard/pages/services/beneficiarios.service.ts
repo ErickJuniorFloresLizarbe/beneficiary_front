@@ -9,7 +9,7 @@ import { BeneficiarioDTO } from '../beneficiarios/beneficiariosDTO';
 })
 
 export class BeneficiariosService {
-  private apiUrl = 'http://localhost:8080/api/persons';
+  private apiUrl = 'https://beneficiary.onrender.com/api/persons';
 
   constructor(private http: HttpClient) {}
 
