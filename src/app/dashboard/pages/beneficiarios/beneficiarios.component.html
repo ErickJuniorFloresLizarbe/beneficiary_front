@@ -66,73 +66,92 @@
       <div class="overflow-x-auto">
 
         <!-- LISTA LA TABLA DE BENEFICIARIOS Y APADRINADOS ( A - I) -->
-        <div class="table-responsive">
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th class="px-2 py-1 font-medium">Apellidos</th>
-                <th class="px-2 py-1 font-medium">Nombres</th>
-                <th class="px-2 py-1 font-medium">Edad</th>
-                <th class="px-2 py-1 font-medium">Nacimiento</th>
-                <th class="px-2 py-1 font-medium">Tipo Doc</th>
-                <th class="px-2 py-1 font-medium">Número Doc</th>
-                <th class="px-2 py-1 font-medium">Patrocinado</th>
-                <th class="px-2 py-1 font-medium">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let beneficiario of beneficiariosFiltrados">
-                <td class="px-2 py-1 font-light truncate-text">{{ beneficiario.name }}</td>
-                <td class="px-2 py-1 font-light truncate-text">{{ beneficiario.surname }}</td>
-                <td class="px-2 py-1 font-light">{{ beneficiario.age }}</td>
-                <td class="px-2 py-1 font-light">{{ formatBirthdate(beneficiario.birthdate) }}</td>
-                <td class="px-2 py-1 font-light">{{ beneficiario.typeDocument }}</td>
-                <td class="px-2 py-1 font-light">{{ beneficiario.documentNumber }}</td>
-                <td class="px-2 py-1 font-light">{{ beneficiario.sponsored }}</td>
-                <td class="px-2 py-1">
-
-                  <div class="d-flex align-items-center gap-2">
-                    <!-- Botón de eliminar y restaurar -->
-                    <button (click)="toggleEstado(beneficiario)" class="btn btn-sm text-white rounded"
-                      [ngClass]="beneficiario.state === 'A' ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'">
-                      <i [ngClass]="beneficiario.state === 'A' ? 'fas fa-trash' : 'fas fa-undo'"></i>
-                    </button>
-
-                    <!-- Botón de vista previa -->
-                    <button class="btn btn-sm text-white bg-gray-500 hover:bg-gray-600 rounded"
-                      (click)="verDetalles(beneficiario.idPerson)">
-                      <i class="fas fa-eye"></i>
-                    </button>
-
-                    <!-- Botón de Actualizar Datos -->
-                    <div class="dropdown">
-                      <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="fas fa-edit"></i>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li>
-                          <a class="dropdown-item" (click)="editarBeneficiario(beneficiario)">
-                            <i class="fas fa-user-edit me-2"></i>Beneficiario</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" (click)="openModal(beneficiario)">
-                            <i class="fas fa-graduation-cap me-2"></i>Education
-                          </a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" (click)="openHealthModal(beneficiario)">
-                            <i class="fas fa-briefcase-medical me-2"></i> Salud
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Encabezado -->
+        <div class="hidden sm:grid grid-cols-8 bg-gray-100 text-gray-700 font-semibold text-sm px-4 py-2 border border-gray-300 rounded-t-md mb-2">
+          <div>Nombres</div>
+          <div>Apellidos</div>
+          <div>Edad</div>
+          <div>Nacimiento</div>
+          <div>Tipo Doc</div>
+          <div>Número Doc</div>
+          <div>Patrocinado</div>
+          <div class="text-center">Acciones</div>
         </div>
+
+        <!-- Contenido tipo tarjetas -->
+        <div class="space-y-2">
+          <div *ngFor="let beneficiario of beneficiariosFiltrados"
+              class="grid grid-cols-1 sm:grid-cols-8 bg-white border border-gray-200 rounded-md shadow-sm px-4 py-3 text-sm items-center gap-y-2 sm:gap-0">
+
+            <div>{{ beneficiario.name }}</div>
+            <div>{{ beneficiario.surname }}</div>
+            <div>{{ beneficiario.age }}</div>
+            <div>{{ formatBirthdate(beneficiario.birthdate) }}</div>
+            <div>{{ beneficiario.typeDocument }}</div>
+            <div>{{ beneficiario.documentNumber }}</div>
+            <div>{{ beneficiario.sponsored }}</div>
+
+            <!-- Acciones -->
+            <div class="flex justify-start sm:justify-center gap-2">
+              <button (click)="toggleEstado(beneficiario)"
+                [ngClass]="beneficiario.state === 'A' ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'"
+                class="text-white rounded px-2 py-1 text-xs">
+                <i [ngClass]="beneficiario.state === 'A' ? 'fas fa-trash' : 'fas fa-undo'"></i>
+              </button>
+
+              <button class="text-white bg-gray-500 hover:bg-gray-600 rounded px-2 py-1 text-xs"
+                (click)="beneficiario?.idPerson ? descargarPdf(beneficiario.idPerson) : null">
+                <i class="fas fa-file-pdf"></i>
+              </button>
+
+              <button class="text-white bg-gray-500 hover:bg-gray-600 rounded px-2 py-1 text-xs"
+                (click)="verDetalles(beneficiario.idPerson)">
+                <i class="fas fa-eye"></i>
+              </button>
+
+              <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle px-2 py-1 text-xs" type="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <ul class="dropdown-menu text-sm">
+                  <li><a class="dropdown-item" (click)="editarBeneficiario(beneficiario)">
+                    <i class="fas fa-user-edit me-2"></i>Beneficiario</a></li>
+                  <li><a class="dropdown-item" (click)="openModal(beneficiario)">
+                    <i class="fas fa-graduation-cap me-2"></i>Educación</a></li>
+                  <li><a class="dropdown-item" (click)="openHealthModal(beneficiario)">
+                    <i class="fas fa-briefcase-medical me-2"></i>Salud</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="flex justify-between items-center mt-4 text-sm">
+          <!-- Selector de cantidad -->
+          <div>
+            <label>Cantidad por página:</label>
+            <select [(ngModel)]="itemsPerPage" (change)="cambiarItemsPorPagina(itemsPerPage)" class="border px-3 py-1 rounded ml-4">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="15">15</option>
+            </select>
+          </div>
+        
+          <!-- Controles de paginación -->
+          <div class="space-x-2">
+            <button (click)="cambiarPagina(currentPage - 1)" [disabled]="currentPage === 1" class="px-3 py-1 bg-gray-200 rounded">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <span>Página {{ currentPage }} de {{ totalPages }}</span>
+            <button (click)="cambiarPagina(currentPage + 1)" [disabled]="currentPage === totalPages" class="px-3 py-1 bg-gray-200 rounded">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        
       </div>
     </div>
   </div>

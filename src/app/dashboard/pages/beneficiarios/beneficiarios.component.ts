@@ -4,6 +4,7 @@ import { BeneficiarioDTO } from '../beneficiarios/beneficiariosDTO';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormEditComponent } from '../beneficiarios/form-edit/form-edit.component';
+import { PdfService } from '../report/pdf.service';
 
 @Component({
   standalone: true,
@@ -29,8 +30,12 @@ export class BeneficiariosComponent implements OnInit {
   beneficiariosFiltrados: BeneficiarioDTO[] = [];
   searchTerm: string = '';
   showBeneficiarioDetails: boolean = true;
+  // Variables de paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalPages: number = 1;
 
-  constructor(private beneficiariosService: BeneficiariosService) {}
+  constructor(private beneficiariosService: BeneficiariosService, private pdfService: PdfService) {}
 
   ngOnInit(): void {
     this.cargarBeneficiarios();
@@ -38,18 +43,39 @@ export class BeneficiariosComponent implements OnInit {
 
   //FILTRO DE BUSQUEDA
   filtrarBeneficiarios(): void {
-    if (!this.searchTerm) {
-      this.beneficiariosFiltrados = this.beneficiarios;
-    } else {
+    let resultados = this.beneficiarios;
+  
+    if (this.searchTerm) {
       const lowerCaseSearch = this.searchTerm.toLowerCase();
-      this.beneficiariosFiltrados = this.beneficiarios.filter(b =>
+      resultados = resultados.filter(b =>
         b.name.toLowerCase().includes(lowerCaseSearch) ||
-        b.surname.toLowerCase().includes(lowerCaseSearch)||
+        b.surname.toLowerCase().includes(lowerCaseSearch) ||
         b.documentNumber.toLowerCase().includes(lowerCaseSearch)
       );
     }
+  
+    this.totalPages = Math.ceil(resultados.length / this.itemsPerPage);
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.beneficiariosFiltrados = resultados.slice(start, end);
   }
 
+  //CAMBIO DE PAGINAS 
+  cambiarPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPages) {
+      this.currentPage = pagina;
+      this.filtrarBeneficiarios();
+    }
+  }
+  
+  //SELECCION DE ITEM 5 - 10 - 15
+  cambiarItemsPorPagina(cantidad: number): void {
+    this.itemsPerPage = cantidad;
+    this.currentPage = 1;
+    this.filtrarBeneficiarios();
+  }
+  
+  
   //BOTON DE FILTRO APADRINADO O BENEFICIARIO
   cambiarApadrinamiento(): void {
     this.estadoApadrinamiento = this.estadoApadrinamiento === 'NO' ? 'SI' : 'NO';
@@ -69,20 +95,26 @@ export class BeneficiariosComponent implements OnInit {
     this.cargarBeneficiarios();
   }
 
-  //LISTADO DE BENEFICIARIOS Y APADRINADOS
+  
   cargarBeneficiarios(): void {
+    const ordenar = (a: any, b: any) =>
+      a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }) ||
+      a.surname.localeCompare(b.surname, 'es', { sensitivity: 'base' });
+  
+    const setBeneficiarios = (data: BeneficiarioDTO[]) => {
+      this.beneficiarios = data.sort(ordenar);
+      this.currentPage = 1; 
+      this.filtrarBeneficiarios();
+    };
+  
     if (this.estadoApadrinamiento === 'SI') {
-      this.beneficiariosService.getPersonsBySponsoredAndState(this.estadoApadrinamiento, this.estadoActual)
-        .subscribe(data => {
-          this.beneficiarios = data;
-          this.filtrarBeneficiarios();
-        });
-    } else if (this.estadoApadrinamiento === 'NO') {
-      this.beneficiariosService.getPersonsByTypeKinshipAndState(this.tipoParentesco, this.estadoActual)
-        .subscribe(data => {
-          this.beneficiarios = data;
-          this.filtrarBeneficiarios();
-        });
+      this.beneficiariosService
+        .getPersonsBySponsoredAndState(this.estadoApadrinamiento, this.estadoActual)
+        .subscribe(setBeneficiarios);
+    } else {
+      this.beneficiariosService
+        .getPersonsByTypeKinshipAndState(this.tipoParentesco, this.estadoActual)
+        .subscribe(setBeneficiarios);
     }
   }
   
@@ -107,6 +139,22 @@ export class BeneficiariosComponent implements OnInit {
     });
   }
 
+  //FUNCION PARA DESCARGAR EN PDF DE CADA USUARIO
+  descargarPdf(beneficiarioId: number | null): void {
+    if (beneficiarioId !== null) {
+      this.beneficiariosService.getPersonByIdWithDetails(beneficiarioId).subscribe(
+        (data) => {
+          this.pdfService.generateBeneficiarioPdf(data);
+        },
+        (error) => {
+          console.error('Error al obtener los detalles del beneficiario:', error);
+        }
+      );
+    } else {
+      console.error('No se ha seleccionado ningún beneficiario');
+    }
+  }
+  
   //ABRE EL MODAL PARA HACER LA ACTUALIZACION DE BENEFICIARIO Y APADRINADO
   editarBeneficiario(beneficiario: BeneficiarioDTO): void {
     this.selectedBeneficiario = { ...beneficiario };
