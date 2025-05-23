@@ -8,12 +8,23 @@
     text-overflow: ellipsis;
     max-width: 150px;
   }
+
+  .icon-benef{
+    font-size:17px; /* dimensione grande e leggibile */
+    color: #646d7a; /* colore amichevole, verde */
+  }
+
+  .icon-apadr{
+    font-size:17px; /* dimensione grande e leggibile */
+    color: #609ce9; /* colore amichevole, verde */
+  }
+
 </style>
 
 <div class="container mx-auto p-4">
 
   <!-- TITULO DEL APARTADO -->
-  <nav class="navbar navbar-light bg-white mb-4 rounded-lg shadow-md">
+  <nav class="navbar navbar-light bg-white mb-4 rounded-lg shadow-md ">
     <div class="container">
       <span class="navbar-brand text-lg font-semibold text-gray-700 ml-2">Listado de los Beneficiarios</span>
       <!-- <button class="btn btn-outline-secondary"> <i class="bi bi-box-arrow-in-right"></i> Registar</button> -->
@@ -62,7 +73,7 @@
 
     </div>
 
-    <div class="bg-white shadow-md rounded-lg p-4">
+    <div class="bg-white shadow-md rounded-lg p-4 ">
       <div class="overflow-x-auto">
 
         <!-- LISTA LA TABLA DE BENEFICIARIOS Y APADRINADOS ( A - I) -->
@@ -88,8 +99,10 @@
             <div>{{ beneficiario.age }}</div>
             <div>{{ formatBirthdate(beneficiario.birthdate) }}</div>
             <div>{{ beneficiario.typeDocument }}</div>
-            <div>{{ beneficiario.documentNumber }}</div>
-            <div>{{ beneficiario.sponsored }}</div>
+            <div>{{beneficiario.documentNumber }}</div>
+            <div>
+              <i [ngClass]="beneficiario.sponsored === 'SI' ? 'fa-solid fa-hand-holding-heart icon-apadr' : 'fa-solid fa-house-user icon-benef'"></i>
+            </div>
 
             <!-- Acciones -->
             <div class="flex justify-start sm:justify-center gap-2">
@@ -121,6 +134,7 @@
                     <i class="fas fa-graduation-cap me-2"></i>Educación</a></li>
                   <li><a class="dropdown-item" (click)="openHealthModal(beneficiario)">
                     <i class="fas fa-briefcase-medical me-2"></i>Salud</a></li>
+                  
                 </ul>
               </div>
             </div>
@@ -133,9 +147,9 @@
           <div>
             <label>Cantidad por página:</label>
             <select [(ngModel)]="itemsPerPage" (change)="cambiarItemsPorPagina(itemsPerPage)" class="border px-3 py-1 rounded ml-4">
-              <option [value]="5">5</option>
               <option [value]="10">10</option>
               <option [value]="15">15</option>
+              <option [value]="20">20</option>
             </select>
           </div>
         
@@ -159,7 +173,7 @@
   <!-- MODAL DE VISTA PREVIA -- MUESTRA DATOS PERSON, EDUCATION Y HEALTH -->
   <div *ngIf="showBeneficiarioDetails && selectedBeneficiario && !isEditing"
     class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-4xl h-5/6 overflow-hidden flex flex-col">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl h-5/6 overflow-hidden flex flex-col">
       <h2 class="text-lg font-semibold mb-4">Detalles del Beneficiario</h2>
 
       <div class="overflow-y-auto flex-grow p-2">
@@ -196,21 +210,25 @@
         <h3 class="text-md font-semibold mt-4 mb-2">Educación</h3>
         <table class="w-full border">
           <tr class="bg-gray-100">
+            <th class="border px-1 py-1 font-medium">institución</th>
             <th class="border px-1 py-1 font-medium">Nivel de Estudio</th>
             <th class="border px-1 py-1 font-medium">Grado</th>
             <th class="border px-1 py-1 font-medium">Promedio</th>
             <th class="border px-1 py-1 font-medium">Cuaderno Completo</th>
             <th class="border px-1 py-1 font-medium">Asistencia</th>
             <th class="border px-1 py-1 font-medium">Tutorías</th>
+            <th class="border px-1 py-1 font-medium">Fecha editada</th>
             <th class="border px-1 py-1 font-medium w-[80px]">Acciones</th>
           </tr>
           <tr *ngFor="let edu of selectedBeneficiario.education">
+            <td class="border px-1 py-1 font-light">{{ edu.schollName }}</td>
             <td class="border px-1 py-1 font-light">{{ edu.degreeStudy }}</td>
             <td class="border px-1 py-1 font-light">{{ edu.gradeBook }}</td>
             <td class="border px-1 py-1 font-light">{{ edu.gradeAverage }}</td>
             <td class="border px-1 py-1 font-light">{{ edu.fullNotebook }}</td>
             <td class="border px-1 py-1 font-light">{{ edu.assistance }}</td>
             <td class="border px-1 py-1 font-light">{{ edu.tutorials }}</td>
+            <td class="border px-1 py-1 font-light">{{ edu.entryDate }}</td>
             <td class="border px-1 py-1 text-center w-[80px]">
               <!-- Botón de editar -->
               <button class="px-1.5 py-0.5 text-white bg-gray-500 hover:bg-gray-600 rounded"
@@ -230,6 +248,8 @@
             <th class="border px-1 py-1 font-medium">Influenza</th>
             <th class="border px-1 py-1 font-medium">Desparasitación</th>
             <th class="border px-1 py-1 font-medium">Hemoglobina</th>
+            <th class="border px-1 py-1 font-medium">Condición de salud</th>
+            <th class="border px-1 py-1 font-medium">Fecha editada</th>
             <th class="border px-1 py-1 font-medium w-[80px]">Acciones</th>
           </tr>
           <tr *ngFor="let health of selectedBeneficiario.health">
@@ -238,6 +258,9 @@
             <td class="border px-1 py-1 font-light">{{ health.influenza }}</td>
             <td class="border px-1 py-1 font-light">{{ health.deworming }}</td>
             <td class="border px-1 py-1 font-light">{{ health.hemoglobin }}</td>
+            <td class="border px-1 py-1 font-light">{{ health.condicionBeneficiary }}</td>
+            <td class="border px-1 py-1 font-light">{{ health.applicationDate }}</td>
+            
             <td class="border px-1 py-1 text-center w-[80px]">
               <!-- Botón de editar -->
               <button class="px-1.5 py-0.5 text-white bg-gray-500 hover:bg-gray-600 rounded"
@@ -330,6 +353,9 @@
     <div class="bg-white p-6 rounded shadow-lg w-1/3">
       <h2 class="text-lg font-bold mb-4">Editar Educación</h2>
 
+      <label class="block">institución Educativa</label>
+      <input [(ngModel)]="selectedEducation.schollName" class="border p-2 w-full mb-2" />
+
       <label class="block">Nivel de Estudio</label>
       <input [(ngModel)]="selectedEducation.degreeStudy" class="border p-2 w-full mb-2" />
 
@@ -354,9 +380,14 @@
 
       <label class="block">Tutorías</label>
       <select [(ngModel)]="selectedEducation.tutorials" class="border p-2 w-full mb-2">
-        <option>Sí</option>
+        <option>Si</option>
         <option>No</option>
       </select>
+
+      <label class="block">Fecha editada</label>
+      <input type="date" [(ngModel)]="selectedEducation.entryDate" class="border p-2 w-full mb-2" />
+
+
 
       <div class="flex justify-end mt-4">
         <button (click)="cerrarModalEducacion()" class="bg-gray-500 text-white px-4 py-2 mr-2 rounded">Cancelar</button>
@@ -406,6 +437,12 @@
         <option>Alta</option>
         <option>Sin información</option>
       </select>
+
+      <label class="block">Condición de salud</label>
+      <input [(ngModel)]="selectedHealth.condicionBeneficiary" class="border p-2 w-full mb-2" />
+
+      <label class="block">Fecha editada</label>
+      <input type="date" [(ngModel)]="selectedHealth.applicationDate" class="border p-2 w-full mb-2" />
 
       <div class="flex justify-end mt-4">
         <button (click)="cerrarModalSalud()" class="bg-gray-500 text-white px-4 py-2 mr-2 rounded">Cancelar</button>
