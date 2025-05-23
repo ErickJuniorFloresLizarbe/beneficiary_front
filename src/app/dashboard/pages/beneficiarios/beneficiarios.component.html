@@ -18,6 +18,11 @@
     font-size:17px; /* dimensione grande e leggibile */
     color: #609ce9; /* colore amichevole, verde */
   }
+  
+  .font-text{
+    font-family: 'Roboto', sans-serif;
+  }
+  
 
 </style>
 
@@ -78,21 +83,21 @@
 
         <!-- LISTA LA TABLA DE BENEFICIARIOS Y APADRINADOS ( A - I) -->
         <!-- Encabezado -->
-        <div class="hidden sm:grid grid-cols-8 bg-gray-100 text-gray-700 font-semibold text-sm px-4 py-2 border border-gray-300 rounded-t-md mb-2">
+        <div class="hidden sm:grid grid-cols-8 bg-gray-100 text-gray-700 font-semibold text-base font-text px-4 py-2 border border-gray-300 rounded-t-md mb-2">
           <div>Nombres</div>
           <div>Apellidos</div>
           <div>Edad</div>
           <div>Nacimiento</div>
           <div>Tipo Doc</div>
           <div>Número Doc</div>
-          <div>Patrocinado</div>
+          <div class="text-center">Patrocinado</div>
           <div class="text-center">Acciones</div>
         </div>
 
         <!-- Contenido tipo tarjetas -->
         <div class="space-y-2">
           <div *ngFor="let beneficiario of beneficiariosFiltrados"
-              class="grid grid-cols-1 sm:grid-cols-8 bg-white border border-gray-200 rounded-md shadow-sm px-4 py-3 text-sm items-center gap-y-2 sm:gap-0">
+              class="grid grid-cols-1 sm:grid-cols-8 bg-white border border-gray-200 rounded-md shadow-sm px-4 py-3 text-base font-text items-center gap-y-2 sm:gap-0 ">
 
             <div>{{ beneficiario.name }}</div>
             <div>{{ beneficiario.surname }}</div>
@@ -100,7 +105,7 @@
             <div>{{ formatBirthdate(beneficiario.birthdate) }}</div>
             <div>{{ beneficiario.typeDocument }}</div>
             <div>{{beneficiario.documentNumber }}</div>
-            <div>
+            <div class="text-center">
               <i [ngClass]="beneficiario.sponsored === 'SI' ? 'fa-solid fa-hand-holding-heart icon-apadr' : 'fa-solid fa-house-user icon-benef'"></i>
             </div>
 
@@ -174,102 +179,126 @@
   <div *ngIf="showBeneficiarioDetails && selectedBeneficiario && !isEditing"
     class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl h-5/6 overflow-hidden flex flex-col">
-      <h2 class="text-lg font-semibold mb-4">Detalles del Beneficiario</h2>
+      <h2 class="text-lg font-semibold text-gray-800 font-text mb-3">Detalles del Beneficiario</h2>
 
-      <div class="overflow-y-auto flex-grow p-2">
-        <!-- Tabla Person -->
-        <h3 class="text-md font-semibold mb-2">Datos Personales</h3>
-        <table class="w-full border">
-          <tr class="bg-gray-100">
-            <th class="border px-1 py-1 font-medium">Nombres</th>
-            <th class="border px-1 py-1 font-medium">Apellido</th>
-            <th class="border px-1 py-1 font-medium">Edad</th>
-            <th class="border px-1 py-1 font-medium">Fecha de Nacimiento</th>
-            <th class="border px-1 py-1 font-medium">Documento</th>
-            <th class="border px-1 py-1 font-medium">Apadrinado</th>
-            <th class="border px-1 py-1 font-medium  w-[80px]">Acciones</th>
-          </tr>
-          <tr *ngIf="selectedBeneficiario">
-            <td class="border px-1 py-1 font-light">{{ selectedBeneficiario.name }}</td>
-            <td class="border px-1 py-1 font-light">{{ selectedBeneficiario.surname }}</td>
-            <td class="border px-1 py-1 font-light">{{ selectedBeneficiario.age }}</td>
-            <td class="border px-1 py-1 font-light">{{ formatBirthdate(selectedBeneficiario.birthdate) }}</td>
-            <td class="border px-1 py-1 font-light">{{ selectedBeneficiario.documentNumber }}</td>
-            <td class="border px-1 py-1 font-light">{{ selectedBeneficiario.sponsored }}</td>
-            <td class="border px-1 py-1 text-center  w-[80px]">
-              <!-- Botón de editar -->
-              <button class="px-1.5 py-0.5 text-white bg-gray-500 hover:bg-gray-600 rounded"
-                (click)="editarBeneficiario(selectedBeneficiario)">
-                <i class="fas fa-sync-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </table>
+      <div class="overflow-y-auto flex-grow p-2 bg-gray-100">
 
-        <!-- Tabla Education -->
-        <h3 class="text-md font-semibold mt-4 mb-2">Educación</h3>
-        <table class="w-full border">
-          <tr class="bg-gray-100">
-            <th class="border px-1 py-1 font-medium">institución</th>
-            <th class="border px-1 py-1 font-medium">Nivel de Estudio</th>
-            <th class="border px-1 py-1 font-medium">Grado</th>
-            <th class="border px-1 py-1 font-medium">Promedio</th>
-            <th class="border px-1 py-1 font-medium">Cuaderno Completo</th>
-            <th class="border px-1 py-1 font-medium">Asistencia</th>
-            <th class="border px-1 py-1 font-medium">Tutorías</th>
-            <th class="border px-1 py-1 font-medium">Fecha editada</th>
-            <th class="border px-1 py-1 font-medium w-[80px]">Acciones</th>
-          </tr>
-          <tr *ngFor="let edu of selectedBeneficiario.education">
-            <td class="border px-1 py-1 font-light">{{ edu.schollName }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.degreeStudy }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.gradeBook }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.gradeAverage }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.fullNotebook }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.assistance }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.tutorials }}</td>
-            <td class="border px-1 py-1 font-light">{{ edu.entryDate }}</td>
-            <td class="border px-1 py-1 text-center w-[80px]">
-              <!-- Botón de editar -->
-              <button class="px-1.5 py-0.5 text-white bg-gray-500 hover:bg-gray-600 rounded"
-                (click)="editarEducacion(edu)">
-                <i class="fas fa-sync-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </table>
+        <div class="w-full mx-auto bg-white border border-gray-200 rounded-lg shadow-md p-3 mb-3">
+          <!-- Tabla Person -->
+          <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b-2 border-gray-300 pb-1">
+            Datos Personales
+          </h3>
 
-        <!-- Tabla Health -->
-        <h3 class="text-md font-semibold mt-4 mb-2">Salud</h3>
-        <table class="w-full border">
-          <tr class="bg-gray-100">
-            <th class="border px-1 py-1 font-medium">Vacuna</th>
-            <th class="border px-1 py-1 font-medium">VPH</th>
-            <th class="border px-1 py-1 font-medium">Influenza</th>
-            <th class="border px-1 py-1 font-medium">Desparasitación</th>
-            <th class="border px-1 py-1 font-medium">Hemoglobina</th>
-            <th class="border px-1 py-1 font-medium">Condición de salud</th>
-            <th class="border px-1 py-1 font-medium">Fecha editada</th>
-            <th class="border px-1 py-1 font-medium w-[80px]">Acciones</th>
-          </tr>
-          <tr *ngFor="let health of selectedBeneficiario.health">
-            <td class="border px-1 py-1 font-light">{{ health.vaccine }}</td>
-            <td class="border px-1 py-1 font-light">{{ health.vph }}</td>
-            <td class="border px-1 py-1 font-light">{{ health.influenza }}</td>
-            <td class="border px-1 py-1 font-light">{{ health.deworming }}</td>
-            <td class="border px-1 py-1 font-light">{{ health.hemoglobin }}</td>
-            <td class="border px-1 py-1 font-light">{{ health.condicionBeneficiary }}</td>
-            <td class="border px-1 py-1 font-light">{{ health.applicationDate }}</td>
-            
-            <td class="border px-1 py-1 text-center w-[80px]">
-              <!-- Botón de editar -->
-              <button class="px-1.5 py-0.5 text-white bg-gray-500 hover:bg-gray-600 rounded"
-                (click)="editarSalud(health)">
-                <i class="fas fa-sync-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </table>
+          <table class="w-full table-auto border-collapse">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border-b px-2 py-1 text-left font-semibold">Nombres</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Apellido</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Edad</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Fecha de Nacimiento</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Documento</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Apadrinado</th>
+                <th class="border-b px-2 py-1 text-center font-semibold">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="selectedBeneficiario" class="hover:bg-gray-100 transition duration-300 font-text">
+                <td class="border-b px-2 py-1">{{ selectedBeneficiario.name }}</td>
+                <td class="border-b px-2 py-1">{{ selectedBeneficiario.surname }}</td>
+                <td class="border-b px-2 py-1">{{ selectedBeneficiario.age }}</td>
+                <td class="border-b px-2 py-1">{{ formatBirthdate(selectedBeneficiario.birthdate) }}</td>
+                <td class="border-b px-2 py-1">{{ selectedBeneficiario.documentNumber }}</td>
+                <td class="border-b px-2 py-1">{{ selectedBeneficiario.sponsored }}</td>
+                <td class="border-b px-2 py-1 text-center">
+                  <button class="px-2 py-1 text-white bg-blue-400 hover:bg-blue-500 rounded transition duration-300"
+                    (click)="editarBeneficiario(selectedBeneficiario)">
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="w-full mx-auto bg-white border border-gray-200 rounded-lg shadow-md p-3 mb-3">
+          <!-- Tabla Education -->
+          <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b-2 border-gray-300 pb-1">
+            Datos de Educación
+          </h3>
+          <table class="w-full border-collapse table-auto">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border-b px-2 py-1 text-left font-semibold">Institución</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Nivel de Estudio</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Grado</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Promedio</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Cuaderno Completo</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Asistencia</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Tutorías</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Fecha Editada</th>
+                <th class="border-b px-2 py-1 text-center font-semibold">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let edu of selectedBeneficiario.education" class="hover:bg-gray-100 transition duration-300 font-text">
+                <td class="border-b px-2 py-1">{{ edu.schollName }}</td>
+                <td class="border-b px-2 py-1">{{ edu.degreeStudy }}</td>
+                <td class="border-b px-2 py-1">{{ edu.gradeBook }}</td>
+                <td class="border-b px-2 py-1">{{ edu.gradeAverage }}</td>
+                <td class="border-b px-2 py-1">{{ edu.fullNotebook }}</td>
+                <td class="border-b px-2 py-1">{{ edu.assistance }}</td>
+                <td class="border-b px-2 py-1">{{ edu.tutorials }}</td>
+                <td class="border-b px-2 py-1">{{ edu.entryDate }}</td>
+                <td class="border-b px-2 py-1 text-center">
+                  <button class="px-2 py-1 text-white bg-blue-400 hover:bg-blue-500 rounded transition duration-300"
+                    (click)="editarEducacion(edu)">
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="w-full mx-auto bg-white border border-gray-200 rounded-lg shadow-md p-3 mb-3">
+          <!-- Tabla Health -->
+          <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b-2 border-gray-300 pb-1">
+            Datos de Salud
+          </h3>
+          <table class="w-full borderw-full border-collapse table-auto">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border-b px-2 py-1 text-left font-semibold">Vacuna</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">VPH</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Influenza</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Desparasitación</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Hemoglobina</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Condición de salud</th>
+                <th class="border-b px-2 py-1 text-left font-semibold">Fecha editada</th>
+                <th class="border-b px-2 py-1 text-center font-semibold">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let health of selectedBeneficiario.health" class="hover:bg-gray-100 transition duration-300 font-text">
+                <td class="border-b px-2 py-1">{{ health.vaccine }}</td>
+                <td class="border-b px-2 py-1">{{ health.vph }}</td>
+                <td class="border-b px-2 py-1">{{ health.influenza }}</td>
+                <td class="border-b px-2 py-1">{{ health.deworming }}</td>
+                <td class="border-b px-2 py-1">{{ health.hemoglobin }}</td>
+                <td class="border-b px-2 py-1">{{ health.condicionBeneficiary }}</td>
+                <td class="border-b px-2 py-1">{{ health.applicationDate }}</td>
+                
+                <td class="border-b px-2 py-1 text-center">
+                  <!-- Botón de editar -->
+                  <button class="px-2 py-1 text-white bg-blue-400 hover:bg-blue-500 rounded transition duration-300"
+                    (click)="editarSalud(health)">
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Botón de cierre -->

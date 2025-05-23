@@ -86,7 +86,7 @@ export class BeneficiariosComponent implements OnInit {
    formatBirthdate(dateString: string): string {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString('es-ES', options).replace(/\s/g, '-');
+    return date.toLocaleDateString('es-ES', options).replace(/\s/g, ' - ');
   }
 
   //LISTA DE ESTADO ACTIVO Y INACTIVO
