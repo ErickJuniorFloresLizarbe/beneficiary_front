@@ -86,9 +86,9 @@
         <div class="hidden sm:grid grid-cols-8 bg-gray-100 text-gray-700 font-semibold text-base font-text px-4 py-2 border border-gray-300 rounded-t-md mb-2">
           <div>Nombres</div>
           <div>Apellidos</div>
-          <div>Edad</div>
+          <div class="text-center">Edad</div>
           <div>Nacimiento</div>
-          <div>Tipo Doc</div>
+          <div class="text-center">Tipo Doc</div>
           <div>Número Doc</div>
           <div class="text-center">Patrocinado</div>
           <div class="text-center">Acciones</div>
@@ -101,9 +101,9 @@
 
             <div>{{ beneficiario.name }}</div>
             <div>{{ beneficiario.surname }}</div>
-            <div>{{ beneficiario.age }}</div>
+            <div class="text-center">{{ beneficiario.age }}</div>
             <div>{{ formatBirthdate(beneficiario.birthdate) }}</div>
-            <div>{{ beneficiario.typeDocument }}</div>
+            <div class="text-center">{{ beneficiario.typeDocument }}</div>
             <div>{{beneficiario.documentNumber }}</div>
             <div class="text-center">
               <i [ngClass]="beneficiario.sponsored === 'SI' ? 'fa-solid fa-hand-holding-heart icon-apadr' : 'fa-solid fa-house-user icon-benef'"></i>
@@ -316,49 +316,67 @@
       <h2 class="text-lg font-semibold mb-4">Editar Beneficiario</h2>
 
       <form (ngSubmit)="guardarCambios()">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium">Nombre</label>
-            <input type="text" [(ngModel)]="selectedBeneficiario.name" name="name" class="w-full border p-2 rounded"
-              required>
+        <div class="grid grid-cols-2 gap-4 p-4 bg-gray-100 rounded shadow-sm">
+          <!-- Cada campo con espacio y estilo uniforme -->
+          <div class="mb-2">
+            <label for="nombre" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-user ml-2 me-2"></i> Nombre
+            </label>
+            <input type="text" id="nombre" name="name" [(ngModel)]="selectedBeneficiario.name"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="Ingresa tu nombre" required>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Apellido</label>
-            <input type="text" [(ngModel)]="selectedBeneficiario.surname" name="surname"
-              class="w-full border p-2 rounded" required>
+          <div class="mb-2">
+            <label for="apellidos" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-user ml-2 me-2"></i> Apellidos
+            </label>
+            <input type="text" id="apellidos" name="surname" [(ngModel)]="selectedBeneficiario.surname"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="Ingresa tus apellidos" required>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Edad</label>
-            <input type="number" [(ngModel)]="selectedBeneficiario.age" name="age" class="w-full border p-2 rounded"
-              required>
+          <div class="mb-2">
+            <label for="edad" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-calendar-alt ml-2 me-2"></i> Edad
+            </label>
+            <input type="number" id="edad" name="age" [(ngModel)]="selectedBeneficiario.age"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Fecha de Nacimiento</label>
-            <input type="date" [(ngModel)]="selectedBeneficiario.birthdate" name="birthdate"
-              class="w-full border p-2 rounded" required>
+          <div class="mb-2">
+            <label for="fechaNacimiento" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-calendar ml-2 me-2"></i> Fecha de Nacimiento
+            </label>
+            <input type="date" id="fechaNacimiento" name="birthdate" [(ngModel)]="selectedBeneficiario.birthdate"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Tipo de Documento</label>
-            <select [(ngModel)]="selectedBeneficiario.typeDocument" name="typeDocument"
-              class="w-full border p-2 rounded" required>
+          <div class="mb-2">
+            <label for="tipoDocumento" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-id-card ml-2 me-2"></i> Tipo de Documento
+            </label>
+            <select id="tipoDocumento" name="typeDocument" [(ngModel)]="selectedBeneficiario.typeDocument"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
               <option value="DNI">DNI</option>
               <option value="CNE">CNE</option>
             </select>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Número de Documento</label>
-            <input type="text" [(ngModel)]="selectedBeneficiario.documentNumber" name="documentNumber"
-              class="w-full border p-2 rounded" required>
+          <div class="mb-2">
+            <label for="numeroDocumento" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-file-alt ml-2 me-2"></i> Número de Documento
+            </label>
+            <input type="text" id="numeroDocumento" name="documentNumber" [(ngModel)]="selectedBeneficiario.documentNumber"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Parentesco</label>
-            <input type="text" [(ngModel)]="selectedBeneficiario.typeKinship" name="typeKinship"
-              class="w-full border p-2 rounded" required>
+          <div class="mb-2">
+            <label for="parentesco" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-users ml-2 me-2"></i> Parentesco
+            </label>
+            <input type="text" id="parentesco" name="typeKinship" [(ngModel)]="selectedBeneficiario.typeKinship"
+              class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
           </div>
-          <div>
-            <label class="block text-sm font-medium">Apadrinado</label>
-            <select [(ngModel)]="selectedBeneficiario.sponsored" name="sponsored" class="w-full border p-2 rounded"
-              required>
+          <div class="mb-2">
+            <label for="apadrinado" class="form-label text-muted d-flex align-items-center mb-1">
+              <i class="fas fa-hand-holding-heart ml-2 me-2"></i> Apadrinado
+            </label>
+            <select id="apadrinado" name="sponsored" [(ngModel)]="selectedBeneficiario.sponsored" class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
               <option value="SI">Sí</option>
               <option value="NO">No</option>
             </select>
@@ -379,43 +397,77 @@
 
   <!-- MODAL DE EDICION DE EDUCATION SIN GENERAR NUEVO ID -> DENTRO DE VISTA PREVIA -->
   <div *ngIf="isEditingEducation" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+    <div class="bg-white p-6 rounded shadow-lg  w-1/2 max-h-[80vh] overflow-y-auto">
       <h2 class="text-lg font-bold mb-4">Editar Educación</h2>
 
-      <label class="block">institución Educativa</label>
-      <input [(ngModel)]="selectedEducation.schollName" class="border p-2 w-full mb-2" />
-
-      <label class="block">Nivel de Estudio</label>
-      <input [(ngModel)]="selectedEducation.degreeStudy" class="border p-2 w-full mb-2" />
-
-      <label class="block">Grado</label>
-      <input [(ngModel)]="selectedEducation.gradeBook" class="border p-2 w-full mb-2" />
-
-      <label class="block">Promedio</label>
-      <input type="number" [(ngModel)]="selectedEducation.gradeAverage" class="border p-2 w-full mb-2" />
-
-      <label class="block">Cuaderno Completo</label>
-      <select [(ngModel)]="selectedEducation.fullNotebook" class="border p-2 w-full mb-2">
-        <option>Completo</option>
-        <option>Incompleto</option>
-      </select>
-
-      <label class="block">Asistencia</label>
-      <select [(ngModel)]="selectedEducation.assistance" class="border p-2 w-full mb-2">
-        <option>Regular</option>
-        <option>Buena</option>
-        <option>Mala</option>
-      </select>
-
-      <label class="block">Tutorías</label>
-      <select [(ngModel)]="selectedEducation.tutorials" class="border p-2 w-full mb-2">
-        <option>Si</option>
-        <option>No</option>
-      </select>
-
-      <label class="block">Fecha editada</label>
-      <input type="date" [(ngModel)]="selectedEducation.entryDate" class="border p-2 w-full mb-2" />
-
+      <div class="grid grid-cols-2 gap-4 p-4 bg-gray-100 rounded shadow-sm">
+        <div class="mb-2">
+          <label for="institucionEducativa" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-school ml-2 me-2"></i> Institución Educativa
+          </label>
+          <input type="text" id="institucionEducativa" [(ngModel)]="selectedEducation.schollName"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+        <div class="mb-2">
+          <label for="nivelEstudio" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-graduation-cap ml-2 me-2"></i> Nivel de Estudio
+          </label>
+          <input type="text" id="nivelEstudio" [(ngModel)]="selectedEducation.degreeStudy"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+        <div class="mb-2">
+          <label for="grado" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-book ml-2 me-2"></i> Grado
+          </label>
+          <input type="text" id="grado" [(ngModel)]="selectedEducation.gradeBook"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+        <div class="mb-2">
+          <label for="promedio" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-star-half-alt ml-2 me-2"></i> Promedio
+          </label>
+          <input type="number" id="promedio" [(ngModel)]="selectedEducation.gradeAverage"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+        <div class="mb-2">
+          <label for="cuadernoCompleto" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-book-open ml-2 me-2"></i> Cuaderno Completo
+          </label>
+          <select id="cuadernoCompleto" [(ngModel)]="selectedEducation.fullNotebook"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Completo</option>
+            <option>Incompleto</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="asistencia" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-user-check ml-2 me-2"></i> Asistencia
+          </label>
+          <select id="asistencia" [(ngModel)]="selectedEducation.assistance"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Regular</option>
+            <option>Buena</option>
+            <option>Mala</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="tutorias" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-user-tie ml-2 me-2"></i> Tutorías
+          </label>
+          <select id="tutorias" [(ngModel)]="selectedEducation.tutorials"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Si</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="fechaEditada" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-calendar-alt ml-2 me-2"></i> Fecha Editada
+          </label>
+          <input type="date" id="fechaEditada" [(ngModel)]="selectedEducation.entryDate"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+      </div>
 
 
       <div class="flex justify-end mt-4">
@@ -428,50 +480,81 @@
 
   <!-- MODAL DE EDICION DE HEALTH SIN GENERAR NUEVO ID -> DENTRO DE VISTA PREVIA -->
   <div *ngIf="isEditingHealth" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+    <div class="bg-white p-6 rounded shadow-lg  w-1/2 max-h-[80vh]  overflow-y-auto">
       <h2 class="text-lg font-bold mb-4">Editar Salud</h2>
 
-      <label class="block">Vacunación</label>
-      <select [(ngModel)]="selectedHealth.vaccine" class="border p-2 w-full mb-2">
-        <option>Esquema Completo</option>
-        <option>Incompleto</option>
-        <option>Sin información</option>
-      </select>
-
-      <label class="block">VPH</label>
-      <select [(ngModel)]="selectedHealth.vph" class="border p-2 w-full mb-2">
-        <option>Aplicada</option>
-        <option>No aplicada</option>
-        <option>Sin información</option>
-      </select>
-
-      <label class="block">Influenza</label>
-      <select [(ngModel)]="selectedHealth.influenza" class="border p-2 w-full mb-2">
-        <option>Aplicada</option>
-        <option>No aplicada</option>
-        <option>Sin información</option>
-      </select>
-
-      <label class="block">Desparasitación</label>
-      <select [(ngModel)]="selectedHealth.deworming" class="border p-2 w-full mb-2">
-        <option>Aplicada</option>
-        <option>No aplicada</option>
-        <option>Sin información</option>
-      </select>
-
-      <label class="block">Hemoglobina</label>
-      <select [(ngModel)]="selectedHealth.hemoglobin" class="border p-2 w-full mb-2">
-        <option>Normal</option>
-        <option>Baja</option>
-        <option>Alta</option>
-        <option>Sin información</option>
-      </select>
-
-      <label class="block">Condición de salud</label>
-      <input [(ngModel)]="selectedHealth.condicionBeneficiary" class="border p-2 w-full mb-2" />
-
-      <label class="block">Fecha editada</label>
-      <input type="date" [(ngModel)]="selectedHealth.applicationDate" class="border p-2 w-full mb-2" />
+      <div class="grid grid-cols-2 gap-4 p-4 bg-gray-100 rounded shadow-sm">
+        <div class="mb-2">
+          <label for="vacunacion" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-syringe ml-2 me-2"></i> Vacunación
+          </label>
+          <select id="vacunacion" [(ngModel)]="selectedHealth.vaccine"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Esquema Completo</option>
+            <option>Incompleto</option>
+            <option>Sin información</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="vph" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-virus ml-2 me-2"></i> VPH
+          </label>
+          <select id="vph" [(ngModel)]="selectedHealth.vph"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Aplicada</option>
+            <option>No aplicada</option>
+            <option>Sin información</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="influenza" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-viruses ml-2 me-2"></i> Influenza
+          </label>
+          <select id="influenza" [(ngModel)]="selectedHealth.influenza"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Aplicada</option>
+            <option>No aplicada</option>
+            <option>Sin información</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="desparasitacion" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-pills ml-2 me-2"></i> Desparasitación
+          </label>
+          <select id="desparasitacion" [(ngModel)]="selectedHealth.deworming"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Aplicada</option>
+            <option>No aplicada</option>
+            <option>Sin información</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="hemoglobina" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-tint ml-2 me-2"></i> Hemoglobina
+          </label>
+          <select id="hemoglobina" [(ngModel)]="selectedHealth.hemoglobin"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2">
+            <option>Normal</option>
+            <option>Baja</option>
+            <option>Alta</option>
+            <option>Sin información</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="condicionSalud" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-heartbeat ml-2 me-2"></i> Condición de Salud
+          </label>
+          <input type="text" id="condicionSalud" [(ngModel)]="selectedHealth.condicionBeneficiary"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+        <div class="mb-2">
+          <label for="fechaEditada" class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-calendar-alt ml-2 me-2"></i> Fecha Editada
+          </label>
+          <input type="date" id="fechaEditada" [(ngModel)]="selectedHealth.applicationDate"
+            class="form-control border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 p-2 w-full mb-2" />
+        </div>
+      </div>
 
       <div class="flex justify-end mt-4">
         <button (click)="cerrarModalSalud()" class="bg-gray-500 text-white px-4 py-2 mr-2 rounded">Cancelar</button>
