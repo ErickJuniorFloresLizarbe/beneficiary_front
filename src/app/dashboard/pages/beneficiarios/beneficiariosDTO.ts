@@ -23,7 +23,7 @@ export interface EducationDTO {
   fullNotebook: string;
   assistance: string;
   schollName: string;
-  entryDate: Date;
+  entryDate: string;
   tutorials: string;
   personId: number;
 }
@@ -35,7 +35,7 @@ export interface HealthDTO {
   influenza: string;
   deworming: string;
   hemoglobin: string;
-  applicationDate: Date;
+  applicationDate: string;
   condicionBeneficiary: string;
   personId: number;
 }

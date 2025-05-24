@@ -248,7 +248,7 @@
                 <td class="border-b px-2 py-1">{{ edu.fullNotebook }}</td>
                 <td class="border-b px-2 py-1">{{ edu.assistance }}</td>
                 <td class="border-b px-2 py-1">{{ edu.tutorials }}</td>
-                <td class="border-b px-2 py-1">{{ edu.entryDate }}</td>
+                <td class="border-b px-2 py-1">{{ formatBirthdate(edu.entryDate) }}</td>
                 <td class="border-b px-2 py-1 text-center">
                   <button class="px-2 py-1 text-white bg-blue-400 hover:bg-blue-500 rounded transition duration-300"
                     (click)="editarEducacion(edu)">
@@ -286,7 +286,7 @@
                 <td class="border-b px-2 py-1">{{ health.deworming }}</td>
                 <td class="border-b px-2 py-1">{{ health.hemoglobin }}</td>
                 <td class="border-b px-2 py-1">{{ health.condicionBeneficiary }}</td>
-                <td class="border-b px-2 py-1">{{ health.applicationDate }}</td>
+                <td class="border-b px-2 py-1">{{ formatBirthdate(health.applicationDate) }}</td>
                 
                 <td class="border-b px-2 py-1 text-center">
                   <!-- Botón de editar -->
