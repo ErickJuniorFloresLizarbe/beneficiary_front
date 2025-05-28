@@ -83,10 +83,14 @@ export class BeneficiariosComponent implements OnInit {
   }
 
   //METODO PARA FORMATEAR FECHA
-   formatBirthdate(dateString: string): string {
-    const date = new Date(dateString);
+  formatBirthdate(dateString: string): string {
+    const dateParts = dateString.split('-'); // suponiendo formato 'YYYY-MM-DD'
+    const year = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1; // meses de 0 a 11
+    const day = parseInt(dateParts[2], 10);
+    const date = new Date(year, month, day); // crea en la zona local sin hora
     const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString('es-ES', options).replace(/\s/g, ' - ');
+    return date.toLocaleDateString('es-PE', options).replace(/\s/g, ' - ');
   }
 
   //LISTA DE ESTADO ACTIVO Y INACTIVO
