@@ -35,11 +35,35 @@ export class BeneficiariosComponent implements OnInit {
   itemsPerPage: number = 5;
   totalPages: number = 1;
 
+  beneficiariosStats: any = {
+    totalBeneficiarios: 0,
+    totalNoApadrinados: 0,
+    totalApadrinados: 0,
+    beneficiariosActivos: 0,
+    beneficiariosInactivos: 0
+  };
+
   constructor(private beneficiariosService: BeneficiariosService, private pdfService: PdfService) {}
 
   ngOnInit(): void {
     this.cargarBeneficiarios();
+      this.cargarEstadisticasBeneficiarios();
   }
+  
+  cargarEstadisticasBeneficiarios(): void {
+    // Llamar a la API inicialmente
+    this.beneficiariosService.getBeneficiariosStats().subscribe(stats => {
+      this.beneficiariosStats = stats;
+    });
+
+    // Configurar un intervalo para recargar estadísticas cada 10 segundos
+    setInterval(() => {
+      this.beneficiariosService.getBeneficiariosStats().subscribe(stats => {
+        this.beneficiariosStats = stats;
+      });
+    }, 5000); // 10000 milisegundos = 10 segundos
+  }
+
 
   //FILTRO DE BUSQUEDA
   filtrarBeneficiarios(): void {
@@ -99,7 +123,7 @@ export class BeneficiariosComponent implements OnInit {
     this.cargarBeneficiarios();
   }
 
-  
+  // CARGA LOS DATOS PARA USAR EN LISTADO
   cargarBeneficiarios(): void {
     const ordenar = (a: any, b: any) =>
       a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }) ||
@@ -121,6 +145,7 @@ export class BeneficiariosComponent implements OnInit {
         .subscribe(setBeneficiarios);
     }
   }
+  
   
   //BOTON DE ELIMINAR Y RESTAURAR BENEFICIARIO Y APADRINADO
   toggleEstado(beneficiario: BeneficiarioDTO): void {
